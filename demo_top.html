@@ -46,17 +46,11 @@
       align-items: center;
     }
 
-    .header-icons div {
+    .header-icons img {
       width: 36px;
       height: 36px;
       margin-left: 24px;
       cursor: pointer;
-      background: #ccc;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
     }
 
     .footer {
@@ -72,17 +66,59 @@
       z-index: 10;
     }
 
-    .footer div {
+    .footer img {
       width: 28px;
       height: 28px;
       cursor: pointer;
-      background: #666;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 12px;
+    }
+
+    /* レスポンシブデザイン */
+    @media (max-width: 480px) {
+      .header {
+        padding: 12px;
+        height: 56px;
+      }
+      
+      .date {
+        font-size: 16px;
+      }
+      
+      .header-icons img {
+        width: 32px;
+        height: 32px;
+        margin-left: 16px;
+      }
+      
+      .date-header {
+        padding: 12px;
+        font-size: 16px;
+        margin-bottom: 8px;
+      }
+      
+      .items {
+        padding: 8px;
+        margin-bottom: 64px;
+      }
+      
+      .item {
+        padding: 12px 0;
+        font-size: 14px;
+      }
+      
+      .footer img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      .date-header {
+        font-size: 20px;
+      }
+      
+      .item {
+        font-size: 16px;
+      }
     }
 
     .items {
@@ -131,9 +167,9 @@
   <div class="header">
     <div class="date">2025 3/3</div>
     <div class="header-icons">
-      <div onclick="navigateTo('demo_notifications.html')" title="通知">🔔</div>
-      <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
-      <div onclick="navigateTo('demo_account.html')" title="プロフィール">👤</div>
+      <img src="notifications.png" alt="通知" onclick="navigateTo('demo_notifications.html')" />
+      <img src="Settings.png" alt="設定" onclick="navigateTo('demo_settings.html')" />
+      <img src="account_circle.png" alt="プロフィール" onclick="navigateTo('demo_account.html')" />
     </div>
   </div>
 
@@ -190,10 +226,10 @@
   </div>
 
   <div class="footer">
-    <div onclick="navigateTo('demo_top.html')" title="ホーム" style="background:#007bff;">🏠</div>
-    <div onclick="navigateTo('demo_calendar.html')" title="記録">📋</div>
-    <div onclick="navigateTo('demo_record.html')" title="カルテ">📄</div>
-    <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
+    <img src="Home.png" alt="ホーム" onclick="navigateTo('demo_top.html')" />
+    <img src="List.png" alt="記録" onclick="navigateTo('demo_calendar.html')" />
+    <img src="File text.png" alt="カルテ" onclick="navigateTo('demo_record.html')" />
+    <img src="Settings.png" alt="設定" onclick="navigateTo('demo_settings.html')" />
   </div>
 
   <script>
