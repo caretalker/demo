@@ -46,17 +46,11 @@
       align-items: center;
     }
 
-    .header-icons div {
+    .header-icons img {
       width: 36px;
       height: 36px;
       margin-left: 24px;
       cursor: pointer;
-      background: #ccc;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
     }
 
     .edit-button-wrapper {
@@ -116,17 +110,68 @@
       z-index: 10;
     }
 
-    .footer div {
+    .footer img {
       width: 28px;
       height: 28px;
       cursor: pointer;
-      background: #666;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 12px;
+    }
+
+    /* レスポンシブデザイン */
+    @media (max-width: 480px) {
+      .header {
+        padding: 12px;
+        height: 56px;
+      }
+      
+      .date {
+        font-size: 16px;
+      }
+      
+      .header-icons img {
+        width: 32px;
+        height: 32px;
+        margin-left: 16px;
+      }
+      
+      .edit-button-wrapper {
+        padding: 6px 14px;
+      }
+      
+      .edit-button {
+        padding: 5px 10px;
+        font-size: 13px;
+      }
+      
+      .items {
+        padding: 8px;
+        margin-bottom: 64px;
+      }
+      
+      .item {
+        margin-bottom: 12px;
+      }
+      
+      .item label {
+        font-size: 13px;
+        margin-bottom: 3px;
+      }
+      
+      .item .value {
+        padding: 6px;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+      
+      .footer img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      .items {
+        padding: 16px;
+      }
     }
   </style>
 </head>
