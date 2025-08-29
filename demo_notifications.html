@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>通知画面 - デモ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", "メイリオ", sans-serif;
+      background: #fff;
+      max-width: 480px;
+      margin: 0 auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .demo-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      font-size: 12px;
+      text-align: center;
+      margin: 0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid #aaa;
+      height: 64px;
+      background: #f5f5f5;
+      box-sizing: border-box;
+    }
+
+    .date {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .header-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-icons div {
+      width: 36px;
+      height: 36px;
+      margin-left: 24px;
+      cursor: pointer;
+      background: #ccc;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .refresh-button-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px 20px;
+    }
+
+    .refresh-button {
+      width: 40px;
+      height: 40px;
+      background-color: gray;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+
+    .refresh-button:hover {
+      background-color: #666;
+    }
+
+    .notifications {
+      padding: 16px;
+      overflow-y: auto;
+      flex: 1;
+      margin-bottom: 64px;
+    }
+
+    .date-heading {
+      font-size: 14px;
+      font-weight: bold;
+      margin: 16px 0 8px;
+      color: #888;
+    }
+
+    .notification-card {
+      background: #fdfdfd;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      padding: 12px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .notification-card.unread {
+      background: #fff8f2;
+      border-left: 4px solid #ff9800;
+    }
+
+    .notification-card.read {
+      background: #f9f9f9;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: #333;
+    }
+
+    .card-summary {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 6px;
+      line-height: 1.4;
+    }
+
+    .card-time {
+      font-size: 12px;
+      color: #999;
+      text-align: right;
+      margin-bottom: 8px;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .card-actions button {
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .mark-read {
+      background: #4caf50;
+      color: white;
+    }
+
+    .mark-read:hover {
+      background: #45a049;
+    }
+
+    .delete {
+      background: #f44336;
+      color: white;
+    }
+
+    .delete:hover {
+      background: #da190b;
+    }
+
+    .notification-status {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: bold;
+      margin-left: 8px;
+    }
+
+    .status-unread {
+      background: #ff9800;
+      color: white;
+    }
+
+    .status-read {
+      background: #9e9e9e;
+      color: white;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    .footer div {
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      background: #666;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+    }
+
+    .no-notifications {
+      text-align: center;
+      padding: 40px 20px;
+      color: #888;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">
+    🚀 デモモード - サンプルデータを表示しています
+  </div>
+
+  <div class="header">
+    <div class="date">2025 3/3</div>
+    <div class="header-icons">
+      <div onclick="navigateTo('demo_notifications.html')" title="通知" style="background:#007bff;">🔔</div>
+      <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
+      <div onclick="navigateTo('demo_account.html')" title="プロフィール">👤</div>
+    </div>
+  </div>
+
+  <div class="refresh-button-wrapper">
+    <button class="refresh-button" onclick="refreshNotifications()" title="更新">⟳</button>
+  </div>
+
+  <div class="notifications" id="notificationsContainer">
+    <h3 class="date-heading">今日</h3>
+    
+    <div class="notification-card unread" data-id="1">
+      <h4 class="card-title">服薬リマインダー<span class="notification-status status-unread">未読</span></h4>
+      <p class="card-summary">高血圧のお薬を飲む時間です。朝の分（アムロジピン錠5mg）をお忘れなく。</p>
+      <div class="card-time">8:30</div>
+      <div class="card-actions">
+        <button class="mark-read" onclick="markAsRead(1)">既読にする</button>
+        <button class="delete" onclick="deleteNotification(1)">削除</button>
+      </div>
+    </div>
+
+    <div class="notification-card read" data-id="2">
+      <h4 class="card-title">散歩のお誘い<span class="notification-status status-read">既読</span></h4>
+      <p class="card-summary">今日は天気が良いですね。公園までの散歩はいかがですか？</p>
+      <div class="card-time">10:00</div>
+      <div class="card-actions">
+        <button class="delete" onclick="deleteNotification(2)">削除</button>
+      </div>
+    </div>
+
+    <div class="notification-card unread" data-id="3">
+      <h4 class="card-title">体調確認<span class="notification-status status-unread">未読</span></h4>
+      <p class="card-summary">こんにちは！今日の体調はいかがですか？何か変わったことがあればお聞かせください。</p>
+      <div class="card-time">16:00</div>
+      <div class="card-actions">
+        <button class="mark-read" onclick="markAsRead(3)">既読にする</button>
+        <button class="delete" onclick="deleteNotification(3)">削除</button>
+      </div>
+    </div>
+
+    <h3 class="date-heading">昨日</h3>
+
+    <div class="notification-card read" data-id="4">
+      <h4 class="card-title">お疲れ様でした<span class="notification-status status-read">既読</span></h4>
+      <p class="card-summary">今日も一日お疲れ様でした。ゆっくりお休みください。明日もよろしくお願いします。</p>
+      <div class="card-time">18:00</div>
+      <div class="card-actions">
+        <button class="delete" onclick="deleteNotification(4)">削除</button>
+      </div>
+    </div>
+
+    <div class="notification-card read" data-id="5">
+      <h4 class="card-title">デイサービス準備<span class="notification-status status-read">既読</span></h4>
+      <p class="card-summary">明日はデイサービスの日です。お忘れ物がないよう、事前に準備をお願いします。</p>
+      <div class="card-time">19:30</div>
+      <div class="card-actions">
+        <button class="delete" onclick="deleteNotification(5)">削除</button>
+      </div>
+    </div>
+
+    <h3 class="date-heading">3月1日</h3>
+
+    <div class="notification-card read" data-id="6">
+      <h4 class="card-title">月次レポート完成<span class="notification-status status-read">既読</span></h4>
+      <p class="card-summary">2月の月次ケアレポートが完成しました。ケア履歴画面からご確認いただけます。</p>
+      <div class="card-time">9:00</div>
+      <div class="card-actions">
+        <button class="delete" onclick="deleteNotification(6)">削除</button>
+      </div>
+    </div>
+
+    <div class="notification-card read" data-id="7">
+      <h4 class="card-title">通院予定リマインダー<span class="notification-status status-read">既読</span></h4>
+      <p class="card-summary">来週の水曜日（3月5日）は内科の通院予定です。診察券と保険証のご準備をお忘れなく。</p>
+      <div class="card-time">17:00</div>
+      <div class="card-actions">
+        <button class="delete" onclick="deleteNotification(7)">削除</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div onclick="navigateTo('demo_top.html')" title="ホーム">🏠</div>
+    <div onclick="navigateTo('demo_calendar.html')" title="記録">📋</div>
+    <div onclick="navigateTo('demo_record.html')" title="カルテ">📄</div>
+    <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
+  </div>
+
+  <script>
+    function navigateTo(page) {
+      if (sessionStorage.getItem('demo_mode') !== 'true') {
+        alert('デモモードでない場合は、この機能は利用できません。');
+        return;
+      }
+      window.location.href = page;
+    }
+
+    function refreshNotifications() {
+      // デモ用のリフレッシュアニメーション
+      const button = document.querySelector('.refresh-button');
+      button.style.transform = 'rotate(360deg)';
+      button.style.transition = 'transform 0.5s ease';
+      
+      setTimeout(() => {
+        button.style.transform = 'rotate(0deg)';
+        alert('通知を更新しました！（デモモードでは新しい通知は追加されません）');
+      }, 500);
+    }
+
+    function markAsRead(notificationId) {
+      const card = document.querySelector(`[data-id="${notificationId}"]`);
+      if (card) {
+        card.classList.remove('unread');
+        card.classList.add('read');
+        
+        const statusSpan = card.querySelector('.notification-status');
+        statusSpan.textContent = '既読';
+        statusSpan.classList.remove('status-unread');
+        statusSpan.classList.add('status-read');
+        
+        const markReadButton = card.querySelector('.mark-read');
+        if (markReadButton) {
+          markReadButton.remove();
+        }
+        
+        alert('通知を既読にしました');
+      }
+    }
+
+    function deleteNotification(notificationId) {
+      if (confirm('この通知を削除しますか？')) {
+        const card = document.querySelector(`[data-id="${notificationId}"]`);
+        if (card) {
+          card.style.transition = 'opacity 0.3s ease';
+          card.style.opacity = '0';
+          setTimeout(() => {
+            card.remove();
+            alert('通知を削除しました');
+          }, 300);
+        }
+      }
+    }
+
+    // デモモードチェック
+    if (sessionStorage.getItem('demo_mode') !== 'true') {
+      alert('デモモードでアクセスしてください。');
+      window.location.href = 'demo_index.html';
+    }
+  </script>
+</body>
+</html>
