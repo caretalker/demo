@@ -46,17 +46,11 @@
       align-items: center;
     }
 
-    .header-icons div {
+    .header-icons img {
       width: 36px;
       height: 36px;
       margin-left: 24px;
       cursor: pointer;
-      background: #ccc;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
     }
 
     .refresh-button-wrapper {
@@ -204,17 +198,10 @@
       z-index: 10;
     }
 
-    .footer div {
+    .footer img {
       width: 28px;
       height: 28px;
       cursor: pointer;
-      background: #666;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 12px;
     }
 
     .no-notifications {
@@ -222,6 +209,90 @@
       padding: 40px 20px;
       color: #888;
       font-size: 16px;
+    }
+
+    /* レスポンシブデザイン */
+    @media (max-width: 480px) {
+      .header {
+        padding: 12px;
+        height: 56px;
+      }
+      
+      .date {
+        font-size: 16px;
+      }
+      
+      .header-icons img {
+        width: 32px;
+        height: 32px;
+        margin-left: 16px;
+      }
+      
+      .refresh-button-wrapper {
+        padding: 8px 16px;
+      }
+      
+      .refresh-button {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+      }
+      
+      .notifications {
+        padding: 12px;
+        margin-bottom: 56px;
+      }
+      
+      .date-heading {
+        font-size: 13px;
+        margin: 12px 0 6px;
+      }
+      
+      .notification-card {
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      
+      .card-title {
+        font-size: 15px;
+        margin-bottom: 3px;
+      }
+      
+      .card-summary {
+        font-size: 13px;
+        margin-bottom: 5px;
+      }
+      
+      .card-time {
+        font-size: 11px;
+        margin-bottom: 6px;
+      }
+      
+      .card-actions button {
+        font-size: 11px;
+        padding: 5px 10px;
+      }
+      
+      .notification-status {
+        font-size: 9px;
+        padding: 1px 5px;
+        margin-left: 6px;
+      }
+      
+      .footer img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      .notifications {
+        padding: 20px;
+      }
+      
+      .refresh-button-wrapper {
+        padding: 12px 24px;
+      }
     }
   </style>
 </head>
