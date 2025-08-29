@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>アカウント設定 - デモ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", "メイリオ", sans-serif;
+      background: #fff;
+      max-width: 480px;
+      margin: 0 auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .demo-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      font-size: 12px;
+      text-align: center;
+      margin: 0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid #aaa;
+      height: 64px;
+      background: #f5f5f5;
+      box-sizing: border-box;
+    }
+
+    .date {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .header-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-icons div {
+      width: 36px;
+      height: 36px;
+      margin-left: 24px;
+      cursor: pointer;
+      background: #ccc;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .edit-button-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      padding: 8px 16px;
+    }
+
+    .edit-button {
+      padding: 6px 12px;
+      font-size: 14px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .edit-button:hover {
+      background-color: #0056b3;
+    }
+
+    .items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      box-sizing: border-box;
+      margin-bottom: 72px;
+    }
+
+    .item {
+      margin-bottom: 16px;
+    }
+
+    .item label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .item .value {
+      padding: 8px;
+      background-color: #f0f0f0;
+      border-radius: 4px;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    .footer div {
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      background: #666;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">
+    🚀 デモモード - サンプルデータを表示しています
+  </div>
+
+  <div class="header">
+    <div class="date">2025 3/3</div>
+    <div class="header-icons">
+      <div onclick="navigateTo('demo_notifications.html')" title="通知">🔔</div>
+      <div onclick="navigateTo('demo_settings.html')" title="設定" style="background:#007bff;">⚙️</div>
+      <div onclick="navigateTo('demo_account.html')" title="プロフィール">👤</div>
+    </div>
+  </div>
+
+  <div class="edit-button-wrapper">
+    <button class="edit-button" onclick="showDemoMessage()">編集</button>
+  </div>
+
+  <div class="items">
+    <div class="item"><label>姓</label><div class="value">田中</div></div>
+    <div class="item"><label>名</label><div class="value">花子</div></div>
+    <div class="item"><label>フリガナ（セイ）</label><div class="value">タナカ</div></div>
+    <div class="item"><label>フリガナ（メイ）</label><div class="value">ハナコ</div></div>
+    <div class="item"><label>年齢</label><div class="value">75歳</div></div>
+    <div class="item"><label>性別</label><div class="value">女性</div></div>
+    <div class="item"><label>住所</label><div class="value">東京都世田谷区〇〇町1-2-3</div></div>
+    <div class="item"><label>ご家族の住所</label><div class="value">東京都渋谷区××町4-5-6</div></div>
+    <div class="item"><label>緊急連絡先</label><div class="value">090-1234-5678（長男：田中一郎）</div></div>
+    <div class="item"><label>服薬中の薬</label><div class="value">アムロジピン錠5mg（高血圧治療薬）</div></div>
+    <div class="item"><label>服薬頻度</label><div class="value">毎朝1回</div></div>
+    <div class="item"><label>持病</label><div class="value">高血圧症</div></div>
+    <div class="item"><label>アレルギー</label><div class="value">特になし</div></div>
+    <div class="item"><label>趣味</label><div class="value">読書、園芸、散歩</div></div>
+    <div class="item"><label>普段の主な外出先</label><div class="value">近所の公園、図書館、スーパーマーケット</div></div>
+    <div class="item"><label>ゴミ出し日</label><div class="value">月・水・金</div></div>
+    <div class="item"><label>デイサービス頻度</label><div class="value">週2回（火曜日・木曜日）</div></div>
+    <div class="item"><label>その他リマインドしたい情報</label><div class="value">毎月第3水曜日：内科通院<br>毎週土曜日：お風呂の日<br>雨の日の散歩は室内運動に変更</div></div>
+  </div>
+
+  <div class="footer">
+    <div onclick="navigateTo('demo_top.html')" title="ホーム">🏠</div>
+    <div onclick="navigateTo('demo_calendar.html')" title="記録">📋</div>
+    <div onclick="navigateTo('demo_record.html')" title="カルテ">📄</div>
+    <div onclick="navigateTo('demo_settings.html')" title="設定" style="background:#007bff;">⚙️</div>
+  </div>
+
+  <script>
+    function navigateTo(page) {
+      if (sessionStorage.getItem('demo_mode') !== 'true') {
+        alert('デモモードでない場合は、この機能は利用できません。');
+        return;
+      }
+      window.location.href = page;
+    }
+
+    function showDemoMessage() {
+      alert('デモモードでは、プロフィール編集機能は利用できません。実際のサービスでは、こちらから各項目を編集できます。');
+    }
+
+    // デモモードチェック
+    if (sessionStorage.getItem('demo_mode') !== 'true') {
+      alert('デモモードでアクセスしてください。');
+      window.location.href = 'demo_index.html';
+    }
+  </script>
+</body>
+</html>
