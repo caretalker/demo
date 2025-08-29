@@ -46,17 +46,11 @@
       align-items: center;
     }
 
-    .header-icons div {
+    .header-icons img {
       width: 36px;
       height: 36px;
       margin-left: 24px;
       cursor: pointer;
-      background: #ccc;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
     }
 
     .main {
@@ -72,16 +66,10 @@
       margin-bottom: 24px;
     }
 
-    .profile .avatar {
+    .profile img {
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: #ddd;
-      margin: 0 auto 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
     }
 
     .profile h2 {
@@ -128,17 +116,70 @@
       z-index: 10;
     }
 
-    .footer div {
+    .footer img {
       width: 28px;
       height: 28px;
       cursor: pointer;
-      background: #666;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 12px;
+    }
+
+    /* レスポンシブデザイン */
+    @media (max-width: 480px) {
+      .header {
+        padding: 12px;
+        height: 56px;
+      }
+      
+      .date {
+        font-size: 16px;
+      }
+      
+      .header-icons img {
+        width: 32px;
+        height: 32px;
+        margin-left: 16px;
+      }
+      
+      .main {
+        padding: 16px;
+        margin-bottom: 64px;
+      }
+      
+      .profile img {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .profile h2 {
+        font-size: 1.1em;
+        margin: 8px 0 2px;
+      }
+      
+      .section-label {
+        font-size: 0.8em;
+        margin: 20px 0 6px;
+      }
+      
+      .main button {
+        padding: 12px 14px;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+      }
+      
+      .footer img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      .main {
+        padding: 24px;
+      }
+      
+      .profile img {
+        width: 90px;
+        height: 90px;
+      }
     }
   </style>
 </head>
@@ -150,15 +191,15 @@
   <div class="header">
     <div class="date">2025 3/3</div>
     <div class="header-icons">
-      <div onclick="navigateTo('demo_notifications.html')" title="通知">🔔</div>
-      <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
-      <div onclick="navigateTo('demo_account.html')" title="プロフィール" style="background:#007bff;">👤</div>
+      <img src="notifications.png" alt="通知" onclick="navigateTo('demo_notifications.html')" />
+      <img src="Settings.png" alt="設定" onclick="navigateTo('demo_settings.html')" />
+      <img src="account_circle.png" alt="プロフィール" onclick="navigateTo('demo_account.html')" />
     </div>
   </div>
 
   <div class="main">
     <div class="profile">
-      <div class="avatar">👤</div>
+      <img src="account_circle.png" alt="プロフィール画像" />
       <h2 id="userName">田中 花子</h2>
     </div>
 
@@ -175,10 +216,10 @@
   </div>
 
   <div class="footer">
-    <div onclick="navigateTo('demo_top.html')" title="ホーム">🏠</div>
-    <div onclick="navigateTo('demo_calendar.html')" title="記録">📋</div>
-    <div onclick="navigateTo('demo_record.html')" title="カルテ">📄</div>
-    <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
+    <img src="Home.png" alt="ホーム" onclick="navigateTo('demo_top.html')" />
+    <img src="List.png" alt="記録" onclick="navigateTo('demo_calendar.html')" />
+    <img src="File text.png" alt="カルテ" onclick="navigateTo('demo_record.html')" />
+    <img src="Settings.png" alt="設定" onclick="navigateTo('demo_settings.html')" />
   </div>
 
   <script>
