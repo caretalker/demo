@@ -14,245 +14,7 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
-  </style>
-</head>
-<body>
-  <div class="demo-banner">
-    🚀 デモモード - サンプルデータを表示しています
-  </div>
-
-  <div class="header">
-    <div class="date">2025 3/3</div>
-    <div class="header-icons">
-      <div onclick="navigateTo('demo_notifications.html')" title="通知">🔔</div>
-      <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
-      <div onclick="navigateTo('demo_account.html')" title="プロフィール">👤</div>
-    </div>
-  </div>
-
-  <div class="month-selector">
-    <button class="month-button" id="prevMonth">＜</button>
-    <span class="current-month" id="currentMonth">2025年3月</span>
-    <button class="month-button" id="nextMonth">＞</button>
-  </div>
-
-  <div class="content-container">
-    <div class="content">
-      <div id="noReportMessage" class="no-report" style="display: none;">レポートが見つかりません</div>
-      
-      <div id="reportContent">
-        <div class="report-content" id="reportText">【田中花子様　2025年3月 月間ケアレポート】
-
-■ 全体的な健康状態
-今月の田中様の健康状態は全般的に安定しており、大きな体調不良はありませんでした。高血圧の管理も順調で、服薬コンプライアンスも良好です。日常生活動作についても自立度が高く、散歩などの軽い運動も継続されています。
-
-■ 服薬状況
-・高血圧薬：毎朝8時30分頃に確実に服薬
-・服薬忘れ：月内で1回のみ（3月15日）
-・副作用：特に報告なし
-・血圧値：安定した数値を維持（収縮期130-140mmHg台）
-
-■ 日常生活の様子
-【食事】
-・規則正しく3食摂取
-・食欲は安定、完食率も高い
-・和食中心の食事を好まれる傾向
-・水分摂取量も適切
-
-【睡眠】
-・夜間の睡眠は概ね良好（6-7時間）
-・入眠困難や中途覚醒は少ない
-・日中の昼寝習慣もバランス良く取れている
-
-【活動性】
-・散歩を週4-5回実施（1回30分程度）
-・公園での近隣住民との交流あり
-・家事も無理のない範囲で実施
-・読書や軽い園芸なども楽しまれている
-
-■ コミュニケーション
-・ケアトーカーとの会話は良好
-・質問に対する反応も適切
-・心配事や不安について率直に相談される
-・記憶力や判断力に特に問題なし
-
-■ 今月の特記事項
-・3月5日：軽い頭痛を訴えたが、服薬後改善
-・3月12日：散歩中に転倒リスクのある場所を避ける判断を自ら実施
-・3月20日：近隣住民との交流で精神的な充実感を得られた様子
-・3月25日：季節の変わり目で軽い疲労感があったが、休息で回復
-
-■ 来月への申し送り事項
-1. 引き続き血圧の監視と服薬管理の継続
-2. 春の気候変化に伴う体調変化への注意
-3. 散歩ルートの安全確認
-4. 定期受診の予定確認（4月中旬予定）
-
-■ 総合評価
-田中様の3月の状況は非常に良好です。自立した生活を維持されており、健康管理に対する意識も高く、ケアトーカーとの連携も円滑に行われています。今後も現在のペースを維持しながら、季節の変化に注意して見守りを継続していきます。
-
-記録者：ケアマネージャー 山田太郎
-作成日：2025年3月31日</div>
-        
-        <div class="pdf-button-wrapper">
-          <button class="pdf-button" onclick="downloadReport()">txt出力</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">
-    <div onclick="navigateTo('demo_top.html')" title="ホーム">🏠</div>
-    <div onclick="navigateTo('demo_calendar.html')" title="記録">📋</div>
-    <div onclick="navigateTo('demo_record.html')" title="カルテ" style="background:#007bff;">📄</div>
-    <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
-  </div>
-
-  <script>
-    let currentDate = new Date();
-    
-    const demoReports = {
-      '2025-01': `【田中花子様　2025年1月 月間ケアレポート】
-
-■ 全体的な健康状態
-新年を迎え、田中様の体調は安定しています。年末年始の疲れもなく、規則正しい生活リズムを維持されています。
-
-■ 服薬状況
-・高血圧薬：継続的に服薬中
-・服薬忘れ：なし
-・血圧値：安定
-
-■ 日常生活の様子
-冬季のため屋外活動は控えめですが、室内での軽い運動を心がけられています。食事も規則正しく摂取されています。
-
-記録者：ケアマネージャー 山田太郎
-作成日：2025年1月31日`,
-
-      '2025-02': `【田中花子様　2025年2月 月間ケアレポート】
-
-■ 全体的な健康状態
-2月も引き続き健康状態は良好です。風邪やインフルエンザにかかることもなく、元気に過ごされています。
-
-■ 服薬状況
-・高血圧薬：問題なく服薬継続
-・服薬忘れ：なし
-・血圧値：正常範囲内
-
-■ 日常生活の様子
-徐々に暖かくなり、散歩の回数も増えています。読書や手芸なども楽しまれ、充実した日々を送られています。
-
-記録者：ケアマネージャー 山田太郎
-作成日：2025年2月28日`,
-
-      '2025-03': document.getElementById('reportText')?.textContent || ''
-    };
-
-    document.addEventListener('DOMContentLoaded', function() {
-      if (sessionStorage.getItem('demo_mode') !== 'true') {
-        alert('デモモードでアクセスしてください。');
-        window.location.href = 'demo_index.html';
-        return;
-      }
-
-      updateMonthDisplay();
-      loadReport();
-
-      document.getElementById('prevMonth').addEventListener('click', previousMonth);
-      document.getElementById('nextMonth').addEventListener('click', nextMonth);
-    });
-
-    function updateMonthDisplay() {
-      const year = currentDate.getFullYear();
-      const month = currentDate.getMonth() + 1;
-      document.getElementById('currentMonth').textContent = `${year}年${month}月`;
-      
-      // 未来の月や2024年以前への移動を制限
-      const now = new Date();
-      const isCurrentOrFutureMonth = (year > now.getFullYear()) || 
-                                   (year === now.getFullYear() && month > now.getMonth() + 1);
-      document.getElementById('nextMonth').disabled = isCurrentOrFutureMonth;
-      
-      const isTooOld = year < 2025 || (year === 2025 && month < 1);
-      document.getElementById('prevMonth').disabled = isTooOld;
     }
-
-    function previousMonth() {
-      const year = currentDate.getFullYear();
-      const month = currentDate.getMonth() + 1;
-      
-      if (year === 2025 && month > 1) {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        updateMonthDisplay();
-        loadReport();
-      }
-    }
-
-    function nextMonth() {
-      const nextMonth = new Date(currentDate);
-      nextMonth.setMonth(nextMonth.getMonth() + 1);
-      
-      const now = new Date();
-      const nextYear = nextMonth.getFullYear();
-      const nextMonthNum = nextMonth.getMonth() + 1;
-      const currentYear = now.getFullYear();
-      const currentMonthNum = now.getMonth() + 1;
-      
-      if (nextYear < currentYear || (nextYear === currentYear && nextMonthNum <= currentMonthNum)) {
-        currentDate = nextMonth;
-        updateMonthDisplay();
-        loadReport();
-      }
-    }
-
-    function loadReport() {
-      const year = currentDate.getFullYear();
-      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-      const yearMonth = `${year}-${month}`;
-      
-      const reportContent = demoReports[yearMonth];
-      
-      if (reportContent) {
-        document.getElementById('reportText').textContent = reportContent;
-        document.getElementById('reportContent').style.display = 'block';
-        document.getElementById('noReportMessage').style.display = 'none';
-      } else {
-        document.getElementById('reportContent').style.display = 'none';
-        document.getElementById('noReportMessage').style.display = 'block';
-      }
-    }
-
-    function downloadReport() {
-      const reportText = document.getElementById('reportText').textContent;
-      if (!reportText) {
-        alert('ダウンロードするレポートがありません。');
-        return;
-      }
-
-      const year = currentDate.getFullYear();
-      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-      const filename = `report_${year}-${month}.txt`;
-
-      const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
-
-    function navigateTo(page) {
-      if (sessionStorage.getItem('demo_mode') !== 'true') {
-        alert('デモモードでない場合は、この機能は利用できません。');
-        return;
-      }
-      window.location.href = page;
-    }
-  </script>
-</body>
-</html>
 
     .demo-banner {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -284,17 +46,11 @@
       align-items: center;
     }
 
-    .header-icons div {
+    .header-icons img {
       width: 36px;
       height: 36px;
       margin-left: 24px;
       cursor: pointer;
-      background: #ccc;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
     }
 
     .month-selector {
@@ -400,15 +156,358 @@
       z-index: 10;
     }
 
-    .footer div {
+    .footer img {
       width: 28px;
       height: 28px;
       cursor: pointer;
-      background: #666;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 12px;
     }
+
+    /* レスポンシブデザイン */
+    @media (max-width: 480px) {
+      .header {
+        padding: 12px;
+        height: 56px;
+      }
+      
+      .date {
+        font-size: 16px;
+      }
+      
+      .header-icons img {
+        width: 32px;
+        height: 32px;
+        margin-left: 16px;
+      }
+      
+      .month-selector {
+        gap: 16px;
+        margin-top: 12px;
+        margin-bottom: 8px;
+      }
+      
+      .month-button {
+        font-size: 18px;
+        padding: 2px 6px;
+      }
+      
+      .current-month {
+        font-size: 16px;
+        min-width: 100px;
+      }
+      
+      .content-container {
+        padding: 16px;
+      }
+      
+      .report-content {
+        padding: 12px;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      
+      .pdf-button {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+      
+      .footer img {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    @media (min-width: 481px) and (max-width: 768px) {
+      .content {
+        max-width: 600px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">
+    🚀 デモモード - サンプルデータを表示しています
+  </div>
+
+  <div class="header">
+    <div class="date">2025 3/3</div>
+    <div class="header-icons">
+      <img src="notifications.png" alt="通知" onclick="navigateTo('demo_notifications.html')" />
+      <img src="Settings.png" alt="設定" onclick="navigateTo('demo_settings.html')" />
+      <img src="account_circle.png" alt="プロフィール" onclick="navigateTo('demo_account.html')" />
+    </div>
+  </div>
+
+  <div class="month-selector">
+    <button class="month-button" id="prevMonth">＜</button>
+    <span class="current-month" id="currentMonth">2025年3月</span>
+    <button class="month-button" id="nextMonth">＞</button>
+  </div>
+
+  <div class="content-container">
+    <div class="content">
+      <div id="noReportMessage" class="no-report" style="display: none;">レポートが見つかりません</div>
+      
+      <div id="reportContent">
+        <div class="report-content" id="reportText">【田中花子様　2025年3月 月間ケアレポート】
+
+■ 全体的な健康状態
+今月の田中様の健康状態は全般的に安定しており、大きな体調不良はありませんでした。高血圧の管理も順調で、服薬コンプライアンスも良好です。日常生活動作についても自立度が高く、散歩などの軽い運動も継続されています。
+
+■ 服薬状況
+・高血圧薬：毎朝8時30分頃に確実に服薬
+・服薬忘れ：月内で1回のみ（3月15日）
+・副作用：特に報告なし
+・血圧値：安定した数値を維持（収縮期130-140mmHg台）
+
+■ 日常生活の様子
+【食事】
+・規則正しく3食摂取
+・食欲は安定、完食率も高い
+・和食中心の食事を好まれる傾向
+・水分摂取量も適切
+
+【睡眠】
+・夜間の睡眠は概ね良好（6-7時間）
+・入眠困難や中途覚醒は少ない
+・日中の昼寝習慣もバランス良く取れている
+
+【活動性】
+・散歩を週4-5回実施（1回30分程度）
+・公園での近隣住民との交流あり
+・家事も無理のない範囲で実施
+・読書や軽い園芸なども楽しまれている
+
+■ コミュニケーション
+・ケアトーカーとの会話は良好
+・質問に対する反応も適切
+・心配事や不安について率直に相談される
+・記憶力や判断力に特に問題なし
+
+■ 今月の特記事項
+・3月5日：軽い頭痛を訴えたが、服薬後改善
+・3月12日：散歩中に転倒リスクのある場所を避ける判断を自ら実施
+・3月20日：近隣住民との交流で精神的な充実感を得られた様子
+・3月25日：季節の変わり目で軽い疲労感があったが、休息で回復
+
+■ 来月への申し送り事項
+1. 引き続き血圧の監視と服薬管理の継続
+2. 春の気候変化に伴う体調変化への注意
+3. 散歩ルートの安全確認
+4. 定期受診の予定確認（4月中旬予定）
+
+■ 総合評価
+田中様の3月の状況は非常に良好です。自立した生活を維持されており、健康管理に対する意識も高く、ケアトーカーとの連携も円滑に行われています。今後も現在のペースを維持しながら、季節の変化に注意して見守りを継続していきます。
+
+記録者：ケアマネージャー 山田太郎
+作成日：2025年3月31日</div>
+        
+        <div class="pdf-button-wrapper">
+          <button class="pdf-button" onclick="downloadReport()">txt出力</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <img src="Home.png" alt="ホーム" onclick="navigateTo('demo_top.html')" />
+    <img src="List.png" alt="記録" onclick="navigateTo('demo_calendar.html')" />
+    <img src="File text.png" alt="カルテ" onclick="navigateTo('demo_record.html')" />
+    <img src="Settings.png" alt="設定" onclick="navigateTo('demo_settings.html')" />
+  </div>
+
+  <script>
+    let currentDate = new Date();
+    
+    const demoReports = {
+      '2025-01': `【田中花子様　2025年1月 月間ケアレポート】
+
+■ 全体的な健康状態
+新年を迎え、田中様の体調は安定しています。年末年始の疲れもなく、規則正しい生活リズムを維持されています。
+
+■ 服薬状況
+・高血圧薬：継続的に服薬中
+・服薬忘れ：なし
+・血圧値：安定
+
+■ 日常生活の様子
+冬季のため屋外活動は控えめですが、室内での軽い運動を心がけられています。食事も規則正しく摂取されています。
+
+記録者：ケアマネージャー 山田太郎
+作成日：2025年1月31日`,
+
+      '2025-02': `【田中花子様　2025年2月 月間ケアレポート】
+
+■ 全体的な健康状態
+2月も引き続き健康状態は良好です。風邪やインフルエンザにかかることもなく、元気に過ごされています。
+
+■ 服薬状況
+・高血圧薬：問題なく服薬継続
+・服薬忘れ：なし
+・血圧値：正常範囲内
+
+■ 日常生活の様子
+徐々に暖かくなり、散歩の回数も増えています。読書や手芸なども楽しまれ、充実した日々を送られています。
+
+記録者：ケアマネージャー 山田太郎
+作成日：2025年2月28日`,
+
+      '2025-03': `【田中花子様　2025年3月 月間ケアレポート】
+
+■ 全体的な健康状態
+今月の田中様の健康状態は全般的に安定しており、大きな体調不良はありませんでした。高血圧の管理も順調で、服薬コンプライアンスも良好です。日常生活動作についても自立度が高く、散歩などの軽い運動も継続されています。
+
+■ 服薬状況
+・高血圧薬：毎朝8時30分頃に確実に服薬
+・服薬忘れ：月内で1回のみ（3月15日）
+・副作用：特に報告なし
+・血圧値：安定した数値を維持（収縮期130-140mmHg台）
+
+■ 日常生活の様子
+【食事】
+・規則正しく3食摂取
+・食欲は安定、完食率も高い
+・和食中心の食事を好まれる傾向
+・水分摂取量も適切
+
+【睡眠】
+・夜間の睡眠は概ね良好（6-7時間）
+・入眠困難や中途覚醒は少ない
+・日中の昼寝習慣もバランス良く取れている
+
+【活動性】
+・散歩を週4-5回実施（1回30分程度）
+・公園での近隣住民との交流あり
+・家事も無理のない範囲で実施
+・読書や軽い園芸なども楽しまれている
+
+■ コミュニケーション
+・ケアトーカーとの会話は良好
+・質問に対する反応も適切
+・心配事や不安について率直に相談される
+・記憶力や判断力に特に問題なし
+
+■ 今月の特記事項
+・3月5日：軽い頭痛を訴えたが、服薬後改善
+・3月12日：散歩中に転倒リスクのある場所を避ける判断を自ら実施
+・3月20日：近隣住民との交流で精神的な充実感を得られた様子
+・3月25日：季節の変わり目で軽い疲労感があったが、休息で回復
+
+■ 来月への申し送り事項
+1. 引き続き血圧の監視と服薬管理の継続
+2. 春の気候変化に伴う体調変化への注意
+3. 散歩ルートの安全確認
+4. 定期受診の予定確認（4月中旬予定）
+
+■ 総合評価
+田中様の3月の状況は非常に良好です。自立した生活を維持されており、健康管理に対する意識も高く、ケアトーカーとの連携も円滑に行われています。今後も現在のペースを維持しながら、季節の変化に注意して見守りを継続していきます。
+
+記録者：ケアマネージャー 山田太郎
+作成日：2025年3月31日`
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (sessionStorage.getItem('demo_mode') !== 'true') {
+        alert('デモモードでアクセスしてください。');
+        window.location.href = 'demo_index.html';
+        return;
+      }
+
+      updateMonthDisplay();
+      loadReport();
+
+      });
+
+    function updateMonthDisplay() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth() + 1;
+      document.getElementById('currentMonth').textContent = `${year}年${month}月`;
+      
+      // 未来の月や2024年以前への移動を制限
+      const now = new Date();
+      const isCurrentOrFutureMonth = (year > now.getFullYear()) || 
+                                   (year === now.getFullYear() && month > now.getMonth() + 1);
+      document.getElementById('nextMonth').disabled = isCurrentOrFutureMonth;
+      
+      const isTooOld = year < 2025 || (year === 2025 && month < 1);
+      document.getElementById('prevMonth').disabled = isTooOld;
+    }
+
+    function previousMonth() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth() + 1;
+      
+      if (year === 2025 && month > 1) {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        updateMonthDisplay();
+        loadReport();
+      }
+    }
+
+    function nextMonth() {
+      const nextMonth = new Date(currentDate);
+      nextMonth.setMonth(nextMonth.getMonth() + 1);
+      
+      const now = new Date();
+      const nextYear = nextMonth.getFullYear();
+      const nextMonthNum = nextMonth.getMonth() + 1;
+      const currentYear = now.getFullYear();
+      const currentMonthNum = now.getMonth() + 1;
+      
+      if (nextYear < currentYear || (nextYear === currentYear && nextMonthNum <= currentMonthNum)) {
+        currentDate = nextMonth;
+        updateMonthDisplay();
+        loadReport();
+      }
+    }
+
+    function loadReport() {
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const yearMonth = `${year}-${month}`;
+      
+      console.log('Loading report for:', yearMonth);
+      
+      const reportContent = demoReports[yearMonth];
+      
+      if (reportContent) {
+        document.getElementById('reportText').textContent = reportContent;
+        document.getElementById('reportContent').style.display = 'block';
+        document.getElementById('noReportMessage').style.display = 'none';
+      } else {
+        document.getElementById('reportContent').style.display = 'none';
+        document.getElementById('noReportMessage').style.display = 'block';
+      }
+    }
+
+    function downloadReport() {
+      const reportText = document.getElementById('reportText').textContent;
+      if (!reportText) {
+        alert('ダウンロードするレポートがありません。');
+        return;
+      }
+
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const filename = `report_${year}-${month}.txt`;
+
+      const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function navigateTo(page) {
+      if (sessionStorage.getItem('demo_mode') !== 'true') {
+        alert('デモモードでない場合は、この機能は利用できません。');
+        return;
+      }
+      window.location.href = page;
+    }
+  </script>
+</body>
+</html>
