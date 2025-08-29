@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ログイン - デモ</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 0.5em;
+      color: #000;
+      font-size: 24px;
+    }
+
+    p {
+      margin-bottom: 1em;
+      color: #333;
+      line-height: 1.4;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: #fff;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      outline: none;
+      border-color: #000;
+    }
+
+    .forgot {
+      text-align: left;
+      font-size: 12px;
+      margin-bottom: 10px;
+      color: #555;
+      cursor: pointer;
+    }
+
+    .forgot:hover {
+      text-decoration: underline;
+    }
+
+    .remember {
+      text-align: left;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .remember label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .remember input[type="checkbox"] {
+      margin-right: 8px;
+      width: auto;
+    }
+
+    .policy {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    button {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .register {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #000;
+      cursor: pointer;
+    }
+
+    .register:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      font-size: 14px;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #ffeaea;
+      border-radius: 6px;
+      border: 1px solid #e74c3c;
+      display: none;
+    }
+
+    .loading-message {
+      color: #000;
+      font-size: 14px;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      display: none;
+    }
+
+    .demo-notice {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 16px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .demo-notice h3 {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      
+      .container {
+        width: 100%;
+        max-width: none;
+      }
+      
+      h2 {
+        font-size: 20px;
+      }
+      
+      p {
+        font-size: 14px;
+      }
+      
+      input[type="email"],
+      input[type="password"] {
+        font-size: 16px;
+        padding: 14px;
+      }
+      
+      button {
+        padding: 14px 20px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="demo-notice">
+      <h3>🚀 デモモード</h3>
+      <p>これはデモページです。任意のメールアドレスとパスワードを入力してログインしてみてください。サービスの機能を体験できます。</p>
+    </div>
+    
+    <h2>ログイン</h2>
+    <p>このアプリにログインするために<br>Eメールとパスワードを入力してください</p>
+    <form id="loginForm">
+      <input type="email" id="email" name="email" placeholder="email@domain.com" required />
+      <input type="password" id="password" name="password" placeholder="your password" required />
+      <div class="forgot">パスワードをお忘れですか？</div>
+      <div class="remember">
+        <label><input type="checkbox" id="rememberMe" /> ログインを保持する</label>
+      </div>
+      <div class="policy">
+        続行をクリックすることで、あなたは私たちの利用規約と<br>
+        プライバシーポリシーに同意したことになります。
+      </div>
+      <button type="submit" id="loginButton">次へ</button>
+    </form>
+    <div id="errorMessage" class="error-message"></div>
+    <div id="loadingMessage" class="loading-message">ログイン中...</div>
+    <div class="register">新規登録はこちら</div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const loadingMessage = document.getElementById('loadingMessage');
+        const loginButton = document.getElementById('loginButton');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            
+            if (!email || !password) {
+                showError('メールアドレスとパスワードを入力してください');
+                return;
+            }
+            
+            showLoading();
+            hideError();
+            
+            // デモ用の遅延
+            setTimeout(() => {
+                // デモモードではすべてのログイン試行を成功させる
+                sessionStorage.setItem('demo_mode', 'true');
+                sessionStorage.setItem('demo_user_email', email);
+                window.location.href = 'demo_top.html';
+            }, 1000);
+        });
+        
+        document.querySelector('.forgot').addEventListener('click', function() {
+            alert('デモモードでは、どんなメールアドレスとパスワードでもログインできます！');
+        });
+        
+        document.querySelector('.register').addEventListener('click', function() {
+            alert('デモモードでは、どんなメールアドレスとパスワードでもログインできます！');
+        });
+        
+        function showLoading() {
+            loadingMessage.style.display = 'block';
+            loginButton.disabled = true;
+            loginButton.textContent = 'ログイン中...';
+        }
+        
+        function hideLoading() {
+            loadingMessage.style.display = 'none';
+            loginButton.disabled = false;
+            loginButton.textContent = '次へ';
+        }
+        
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+        
+        function hideError() {
+            errorMessage.style.display = 'none';
+        }
+        
+        [emailInput, passwordInput].forEach(input => {
+            input.addEventListener('input', function() {
+                if (errorMessage.style.display === 'block') {
+                    hideError();
+                }
+            });
+        });
+    });
+  </script>
+</body>
+</html>
