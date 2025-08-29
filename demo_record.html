@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>レポート画面 - デモ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", "メイリオ", sans-serif;
+      background: #fff;
+      max-width: 480px;
+      margin: 0 auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+  </style>
+</head>
+<body>
+  <div class="demo-banner">
+    🚀 デモモード - サンプルデータを表示しています
+  </div>
+
+  <div class="header">
+    <div class="date">2025 3/3</div>
+    <div class="header-icons">
+      <div onclick="navigateTo('demo_notifications.html')" title="通知">🔔</div>
+      <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
+      <div onclick="navigateTo('demo_account.html')" title="プロフィール">👤</div>
+    </div>
+  </div>
+
+  <div class="month-selector">
+    <button class="month-button" id="prevMonth">＜</button>
+    <span class="current-month" id="currentMonth">2025年3月</span>
+    <button class="month-button" id="nextMonth">＞</button>
+  </div>
+
+  <div class="content-container">
+    <div class="content">
+      <div id="noReportMessage" class="no-report" style="display: none;">レポートが見つかりません</div>
+      
+      <div id="reportContent">
+        <div class="report-content" id="reportText">【田中花子様　2025年3月 月間ケアレポート】
+
+■ 全体的な健康状態
+今月の田中様の健康状態は全般的に安定しており、大きな体調不良はありませんでした。高血圧の管理も順調で、服薬コンプライアンスも良好です。日常生活動作についても自立度が高く、散歩などの軽い運動も継続されています。
+
+■ 服薬状況
+・高血圧薬：毎朝8時30分頃に確実に服薬
+・服薬忘れ：月内で1回のみ（3月15日）
+・副作用：特に報告なし
+・血圧値：安定した数値を維持（収縮期130-140mmHg台）
+
+■ 日常生活の様子
+【食事】
+・規則正しく3食摂取
+・食欲は安定、完食率も高い
+・和食中心の食事を好まれる傾向
+・水分摂取量も適切
+
+【睡眠】
+・夜間の睡眠は概ね良好（6-7時間）
+・入眠困難や中途覚醒は少ない
+・日中の昼寝習慣もバランス良く取れている
+
+【活動性】
+・散歩を週4-5回実施（1回30分程度）
+・公園での近隣住民との交流あり
+・家事も無理のない範囲で実施
+・読書や軽い園芸なども楽しまれている
+
+■ コミュニケーション
+・ケアトーカーとの会話は良好
+・質問に対する反応も適切
+・心配事や不安について率直に相談される
+・記憶力や判断力に特に問題なし
+
+■ 今月の特記事項
+・3月5日：軽い頭痛を訴えたが、服薬後改善
+・3月12日：散歩中に転倒リスクのある場所を避ける判断を自ら実施
+・3月20日：近隣住民との交流で精神的な充実感を得られた様子
+・3月25日：季節の変わり目で軽い疲労感があったが、休息で回復
+
+■ 来月への申し送り事項
+1. 引き続き血圧の監視と服薬管理の継続
+2. 春の気候変化に伴う体調変化への注意
+3. 散歩ルートの安全確認
+4. 定期受診の予定確認（4月中旬予定）
+
+■ 総合評価
+田中様の3月の状況は非常に良好です。自立した生活を維持されており、健康管理に対する意識も高く、ケアトーカーとの連携も円滑に行われています。今後も現在のペースを維持しながら、季節の変化に注意して見守りを継続していきます。
+
+記録者：ケアマネージャー 山田太郎
+作成日：2025年3月31日</div>
+        
+        <div class="pdf-button-wrapper">
+          <button class="pdf-button" onclick="downloadReport()">txt出力</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div onclick="navigateTo('demo_top.html')" title="ホーム">🏠</div>
+    <div onclick="navigateTo('demo_calendar.html')" title="記録">📋</div>
+    <div onclick="navigateTo('demo_record.html')" title="カルテ" style="background:#007bff;">📄</div>
+    <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
+  </div>
+
+  <script>
+    let currentDate = new Date();
+    
+    const demoReports = {
+      '2025-01': `【田中花子様　2025年1月 月間ケアレポート】
+
+■ 全体的な健康状態
+新年を迎え、田中様の体調は安定しています。年末年始の疲れもなく、規則正しい生活リズムを維持されています。
+
+■ 服薬状況
+・高血圧薬：継続的に服薬中
+・服薬忘れ：なし
+・血圧値：安定
+
+■ 日常生活の様子
+冬季のため屋外活動は控えめですが、室内での軽い運動を心がけられています。食事も規則正しく摂取されています。
+
+記録者：ケアマネージャー 山田太郎
+作成日：2025年1月31日`,
+
+      '2025-02': `【田中花子様　2025年2月 月間ケアレポート】
+
+■ 全体的な健康状態
+2月も引き続き健康状態は良好です。風邪やインフルエンザにかかることもなく、元気に過ごされています。
+
+■ 服薬状況
+・高血圧薬：問題なく服薬継続
+・服薬忘れ：なし
+・血圧値：正常範囲内
+
+■ 日常生活の様子
+徐々に暖かくなり、散歩の回数も増えています。読書や手芸なども楽しまれ、充実した日々を送られています。
+
+記録者：ケアマネージャー 山田太郎
+作成日：2025年2月28日`,
+
+      '2025-03': document.getElementById('reportText')?.textContent || ''
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (sessionStorage.getItem('demo_mode') !== 'true') {
+        alert('デモモードでアクセスしてください。');
+        window.location.href = 'demo_index.html';
+        return;
+      }
+
+      updateMonthDisplay();
+      loadReport();
+
+      document.getElementById('prevMonth').addEventListener('click', previousMonth);
+      document.getElementById('nextMonth').addEventListener('click', nextMonth);
+    });
+
+    function updateMonthDisplay() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth() + 1;
+      document.getElementById('currentMonth').textContent = `${year}年${month}月`;
+      
+      // 未来の月や2024年以前への移動を制限
+      const now = new Date();
+      const isCurrentOrFutureMonth = (year > now.getFullYear()) || 
+                                   (year === now.getFullYear() && month > now.getMonth() + 1);
+      document.getElementById('nextMonth').disabled = isCurrentOrFutureMonth;
+      
+      const isTooOld = year < 2025 || (year === 2025 && month < 1);
+      document.getElementById('prevMonth').disabled = isTooOld;
+    }
+
+    function previousMonth() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth() + 1;
+      
+      if (year === 2025 && month > 1) {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        updateMonthDisplay();
+        loadReport();
+      }
+    }
+
+    function nextMonth() {
+      const nextMonth = new Date(currentDate);
+      nextMonth.setMonth(nextMonth.getMonth() + 1);
+      
+      const now = new Date();
+      const nextYear = nextMonth.getFullYear();
+      const nextMonthNum = nextMonth.getMonth() + 1;
+      const currentYear = now.getFullYear();
+      const currentMonthNum = now.getMonth() + 1;
+      
+      if (nextYear < currentYear || (nextYear === currentYear && nextMonthNum <= currentMonthNum)) {
+        currentDate = nextMonth;
+        updateMonthDisplay();
+        loadReport();
+      }
+    }
+
+    function loadReport() {
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const yearMonth = `${year}-${month}`;
+      
+      const reportContent = demoReports[yearMonth];
+      
+      if (reportContent) {
+        document.getElementById('reportText').textContent = reportContent;
+        document.getElementById('reportContent').style.display = 'block';
+        document.getElementById('noReportMessage').style.display = 'none';
+      } else {
+        document.getElementById('reportContent').style.display = 'none';
+        document.getElementById('noReportMessage').style.display = 'block';
+      }
+    }
+
+    function downloadReport() {
+      const reportText = document.getElementById('reportText').textContent;
+      if (!reportText) {
+        alert('ダウンロードするレポートがありません。');
+        return;
+      }
+
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const filename = `report_${year}-${month}.txt`;
+
+      const blob = new Blob([reportText], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function navigateTo(page) {
+      if (sessionStorage.getItem('demo_mode') !== 'true') {
+        alert('デモモードでない場合は、この機能は利用できません。');
+        return;
+      }
+      window.location.href = page;
+    }
+  </script>
+</body>
+</html>
+
+    .demo-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      font-size: 12px;
+      text-align: center;
+      margin: 0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid #aaa;
+      height: 64px;
+      background: #f5f5f5;
+      box-sizing: border-box;
+    }
+
+    .date {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .header-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-icons div {
+      width: 36px;
+      height: 36px;
+      margin-left: 24px;
+      cursor: pointer;
+      background: #ccc;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .month-selector {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: 16px;
+      margin-bottom: 12px;
+    }
+
+    .month-button {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+    }
+
+    .month-button:hover {
+      background-color: #f0f0f0;
+    }
+
+    .month-button:disabled {
+      color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .current-month {
+      font-size: 18px;
+      color: #000;
+      font-weight: bold;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .content-container {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-y: auto;
+    }
+
+    .content {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+    }
+
+    .pdf-button-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 16px;
+    }
+
+    .pdf-button {
+      background-color: #000;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+    }
+
+    .pdf-button:hover {
+      background-color: #333;
+    }
+
+    .no-report {
+      text-align: center;
+      padding: 40px 20px;
+      color: #888;
+      font-size: 16px;
+    }
+
+    .report-content {
+      padding: 16px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      background-color: #fafafa;
+      margin-bottom: 16px;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    .footer div {
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      background: #666;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+    }
