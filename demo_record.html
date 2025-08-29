@@ -1,28 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-      if (sessionStorage.getItem('demo_mode') !== 'true') {
-        alert('デモモードでアクセスしてください。');
-        window.location.href = 'demo_index.html';
-        return;
-      }
-
-      // 現在の日付を8月に設定
-      currentDate = new Date(2025, 7, 30); // 2025年8月30日
-      updateMonthDisplay();
-      loadReport();
-
-      document.getElementById('prevMonth').addEventListener('click', previousMonth);
-      document.getElementById('nextMonth').addEventListener('click', nextMonth);
-    });
-
-    function updateMonthDisplay() {
-      const year = currentDate.getFullYear();
-      const month = currentDate.getMonth() + 1;
-      document.getElementById('currentMonth').textContent = `${year}年${month}月`;
-      
-      // 未来の月や2024年以前への移動を制限
-      const now = new Date(2025, 7, 30); // 現在を8月30日とする
-      const isCurrentOrFutureMonth = (year > now.getFullYear()) || 
-                                   (<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
@@ -359,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 
   <script>
-    let currentDate = new Date();
+    let currentDate = new Date(2025, 7, 30); // 2025年8月30日で初期化
     
     const demoReports = {
       '2025-05': `【田中花子様　2025年5月 月間ケアレポート】
@@ -599,7 +575,9 @@ document.addEventListener('DOMContentLoaded', function() {
       updateMonthDisplay();
       loadReport();
 
-      });
+      document.getElementById('prevMonth').addEventListener('click', previousMonth);
+      document.getElementById('nextMonth').addEventListener('click', nextMonth);
+    });
 
     function updateMonthDisplay() {
       const year = currentDate.getFullYear();
@@ -607,12 +585,12 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('currentMonth').textContent = `${year}年${month}月`;
       
       // 未来の月や2024年以前への移動を制限
-      const now = new Date();
+      const now = new Date(2025, 7, 30); // 現在を8月30日とする
       const isCurrentOrFutureMonth = (year > now.getFullYear()) || 
                                    (year === now.getFullYear() && month > now.getMonth() + 1);
       document.getElementById('nextMonth').disabled = isCurrentOrFutureMonth;
       
-      const isTooOld = year < 2025 || (year === 2025 && month < 1);
+      const isTooOld = year < 2025 || (year === 2025 && month < 5);
       document.getElementById('prevMonth').disabled = isTooOld;
     }
 
@@ -620,7 +598,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const year = currentDate.getFullYear();
       const month = currentDate.getMonth() + 1;
       
-      if (year === 2025 && month > 1) {
+      if (year === 2025 && month > 5) {
         currentDate.setMonth(currentDate.getMonth() - 1);
         updateMonthDisplay();
         loadReport();
@@ -631,7 +609,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const nextMonth = new Date(currentDate);
       nextMonth.setMonth(nextMonth.getMonth() + 1);
       
-      const now = new Date();
+      const now = new Date(2025, 7, 30); // 8月30日
       const nextYear = nextMonth.getFullYear();
       const nextMonthNum = nextMonth.getMonth() + 1;
       const currentYear = now.getFullYear();
