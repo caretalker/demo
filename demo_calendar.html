@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>会話履歴 - デモ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", "メイリオ", sans-serif;
+      background: #fff;
+      max-width: 480px;
+      margin: 0 auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+  </style>
+</head>
+<body>
+  <div class="demo-banner">
+    🚀 デモモード - サンプルデータを表示しています
+  </div>
+
+  <div class="header">
+    <div class="date">2025 3/3</div>
+    <div class="header-icons">
+      <div onclick="navigateTo('demo_notifications.html')" title="通知">🔔</div>
+      <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
+      <div onclick="navigateTo('demo_account.html')" title="プロフィール">👤</div>
+    </div>
+  </div>
+
+  <div class="calendar-container">
+    <div class="calendar-body-wrapper">
+      <div class="calendar-header">
+        <button class="arrow-button" id="prevMonth">&lt;</button>
+        <span id="monthDisplay">3月</span>
+        <button class="arrow-button" id="nextMonth">&gt;</button>
+        <button class="arrow-button" id="prevYear">&lt;</button>
+        <span id="yearDisplay">2025</span>
+        <button class="arrow-button" id="nextYear">&gt;</button>
+      </div>
+      
+      <div class="calendar">
+        <div>日</div><div>月</div><div>火</div><div>水</div><div>木</div><div>金</div><div>土</div>
+        <!-- 日付が動的に挿入される -->
+      </div>
+
+      <div class="ok-button">
+        <button id="okButton" onclick="showConversation()">会話を見る</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div onclick="navigateTo('demo_top.html')" title="ホーム">🏠</div>
+    <div onclick="navigateTo('demo_calendar.html')" title="記録" style="background:#007bff;">📋</div>
+    <div onclick="navigateTo('demo_record.html')" title="カルテ">📄</div>
+    <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
+  </div>
+
+  <script>
+    let currentDate = new Date();
+    let selectedDay = null;
+    // デモ用の利用可能日（今月の1日、3日、5日、7日、10日、15日、20日、28日）
+    let availableDays = [1, 3, 5, 7, 10, 15, 20, 28];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (sessionStorage.getItem('demo_mode') !== 'true') {
+        alert('デモモードでアクセスしてください。');
+        window.location.href = 'demo_index.html';
+        return;
+      }
+
+      setupEventListeners();
+      updateCalendarDisplay();
+    });
+
+    function setupEventListeners() {
+      document.getElementById('prevMonth').addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        updateCalendarDisplay();
+        resetSelection();
+      });
+
+      document.getElementById('nextMonth').addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        updateCalendarDisplay();
+        resetSelection();
+      });
+
+      document.getElementById('prevYear').addEventListener('click', () => {
+        currentDate.setFullYear(currentDate.getFullYear() - 1);
+        updateCalendarDisplay();
+        resetSelection();
+      });
+
+      document.getElementById('nextYear').addEventListener('click', () => {
+        currentDate.setFullYear(currentDate.getFullYear() + 1);
+        updateCalendarDisplay();
+        resetSelection();
+      });
+    }
+
+    function updateCalendarDisplay() {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+
+      document.getElementById('monthDisplay').textContent = `${month + 1}月`;
+      document.getElementById('yearDisplay').textContent = year;
+
+      generateCalendar(year, month);
+    }
+
+    function generateCalendar(year, month) {
+      const calendar = document.querySelector('.calendar');
+      
+      const dayCells = calendar.querySelectorAll('.calendar-day');
+      dayCells.forEach(cell => cell.remove());
+
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const firstDayOfWeek = firstDay.getDay();
+      const daysInMonth = lastDay.getDate();
+
+      for (let i = 0; i < firstDayOfWeek; i++) {
+        const emptyCell = document.createElement('div');
+        calendar.appendChild(emptyCell);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayCell = document.createElement('div');
+        dayCell.className = 'calendar-day';
+        dayCell.textContent = day;
+        dayCell.addEventListener('click', () => selectDay(day));
+        
+        // 2025年3月の場合のみ利用可能日を設定
+        if (year === 2025 && month === 2 && availableDays.includes(day)) {
+          dayCell.classList.add('available');
+        } else {
+          dayCell.classList.add('unavailable');
+        }
+        
+        calendar.appendChild(dayCell);
+      }
+    }
+
+    function selectDay(day) {
+      // 2025年3月以外または利用可能でない日は選択できない
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+      
+      if (year !== 2025 || month !== 2 || !availableDays.includes(day)) {
+        return;
+      }
+
+      const previousSelected = document.querySelector('.calendar-day.selected');
+      if (previousSelected) {
+        previousSelected.classList.remove('selected');
+      }
+
+      const dayCell = Array.from(document.querySelectorAll('.calendar-day'))
+        .find(cell => cell.textContent == day);
+      
+      if (dayCell) {
+        dayCell.classList.add('selected');
+        selectedDay = day;
+        showOkButton();
+      }
+    }
+
+    function resetSelection() {
+      selectedDay = null;
+      hideOkButton();
+      
+      const selected = document.querySelector('.calendar-day.selected');
+      if (selected) {
+        selected.classList.remove('selected');
+      }
+    }
+
+    function showOkButton() {
+      document.getElementById('okButton').classList.add('visible');
+    }
+
+    function hideOkButton() {
+      document.getElementById('okButton').classList.remove('visible');
+    }
+
+    function showConversation() {
+      if (!selectedDay) return;
+
+      const year = currentDate.getFullYear();
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+      const day = String(selectedDay).padStart(2, '0');
+      const dateString = `${year}-${month}-${day}`;
+
+      sessionStorage.setItem('demo_selected_date', dateString);
+      window.location.href = 'demo_conversation.html';
+    }
+
+    function navigateTo(page) {
+      if (sessionStorage.getItem('demo_mode') !== 'true') {
+        alert('デモモードでない場合は、この機能は利用できません。');
+        return;
+      }
+      window.location.href = page;
+    }
+  </script>
+</body>
+</html>
+
+    .demo-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      font-size: 12px;
+      text-align: center;
+      margin: 0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid #aaa;
+      height: 64px;
+      background: #f5f5f5;
+      box-sizing: border-box;
+    }
+
+    .date {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .header-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-icons div {
+      width: 36px;
+      height: 36px;
+      margin-left: 24px;
+      cursor: pointer;
+      background: #ccc;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .calendar-container {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-y: auto;
+    }
+
+    .calendar-body-wrapper {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      font-weight: bold;
+      align-items: center;
+    }
+
+    .calendar-header span {
+      margin: 0 10px;
+    }
+
+    .arrow-button {
+      background-color: #f5f5f5;
+      color: #000000;
+      border: none;
+      cursor: pointer;
+      padding: 6px 12px;
+      font-size: 16px;
+      transition: background-color 0.2s ease;
+      border-radius: 4px;
+    }
+
+    .arrow-button:hover {
+      background-color: #f5f5f5;
+      color: #999;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      text-align: center;
+    }
+
+    .calendar-day {
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .calendar-day:hover {
+      background-color: #e0e0e0;
+    }
+
+    .calendar-day.unavailable {
+      color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .calendar-day.unavailable:hover {
+      background-color: transparent;
+    }
+
+    .calendar-day.available {
+      background-color: #e3f2fd;
+      color: #1976d2;
+      font-weight: bold;
+    }
+
+    .calendar-day.available:hover {
+      background-color: #bbdefb;
+    }
+
+    .selected {
+      background-color: #999 !important;
+      color: #fff !important;
+      border-radius: 6px;
+    }
+
+    .ok-button {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .ok-button button {
+      background-color: #ccc;
+      color: #333;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 8px 12px;
+      transition: background-color 0.2s ease;
+      display: none;
+    }
+
+    .ok-button button:hover {
+      background-color: #ddd;
+    }
+
+    .ok-button button.visible {
+      display: block;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    .footer div {
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      background: #666;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+    }
