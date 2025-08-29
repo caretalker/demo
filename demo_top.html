@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ホーム - デモ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", "メイリオ", sans-serif;
+      background: #fff;
+      max-width: 480px;
+      margin: 0 auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .demo-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      font-size: 12px;
+      text-align: center;
+      margin: 0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid #aaa;
+      height: 64px;
+      background: #f5f5f5;
+      box-sizing: border-box;
+    }
+
+    .date {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .header-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-icons div {
+      width: 36px;
+      height: 36px;
+      margin-left: 24px;
+      cursor: pointer;
+      background: #ccc;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 0;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    .footer div {
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      background: #666;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+    }
+
+    .items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      box-sizing: border-box;
+      margin-bottom: 72px;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px dashed #999;
+      font-size: 16px;
+      line-height: 1.6;
+      flex-wrap: wrap;
+    }
+
+    .item div:first-child {
+      width: 85%;
+      word-break: break-word;
+    }
+
+    .item p {
+      margin: 4px 0;
+    }
+
+    .date-header {
+      text-align: center;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      border-bottom: 2px solid #f0f0f0;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">
+    🚀 デモモード - サンプルデータを表示しています
+  </div>
+
+  <div class="header">
+    <div class="date">2025 3/3</div>
+    <div class="header-icons">
+      <div onclick="navigateTo('demo_notifications.html')" title="通知">🔔</div>
+      <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
+      <div onclick="navigateTo('demo_account.html')" title="プロフィール">👤</div>
+    </div>
+  </div>
+
+  <div class="date-header">今日の記録 (2025年3月3日)</div>
+
+  <div class="items">
+    <div class="item">
+      <div>
+        <p><strong>朝の服薬</strong></p>
+        <p>高血圧の薬を服用しました。今朝は少し頭痛がありましたが、薬を飲んでから楽になりました。</p>
+      </div>
+      <div>08:30</div>
+    </div>
+
+    <div class="item">
+      <div>
+        <p><strong>朝食</strong></p>
+        <p>パンとコーヒー、サラダを食べました。食欲も良く、完食できました。</p>
+      </div>
+      <div>09:15</div>
+    </div>
+
+    <div class="item">
+      <div>
+        <p><strong>散歩</strong></p>
+        <p>公園まで30分ほど散歩しました。天気も良く、気持ちよかったです。途中で近所の田中さんとお話ししました。</p>
+      </div>
+      <div>10:30</div>
+    </div>
+
+    <div class="item">
+      <div>
+        <p><strong>昼食</strong></p>
+        <p>おにぎりとお味噌汁、お漬物を食べました。量は少なめでしたが美味しくいただきました。</p>
+      </div>
+      <div>12:00</div>
+    </div>
+
+    <div class="item">
+      <div>
+        <p><strong>お昼寝</strong></p>
+        <p>1時間ほど昼寝をしました。よく眠れて、すっきりしました。</p>
+      </div>
+      <div>14:30</div>
+    </div>
+
+    <div class="item">
+      <div>
+        <p><strong>夕方の会話</strong></p>
+        <p>ケアトーカーの山田さんと30分ほどお話ししました。最近の体調について相談し、アドバイスをいただきました。</p>
+      </div>
+      <div>16:00</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div onclick="navigateTo('demo_top.html')" title="ホーム" style="background:#007bff;">🏠</div>
+    <div onclick="navigateTo('demo_calendar.html')" title="記録">📋</div>
+    <div onclick="navigateTo('demo_record.html')" title="カルテ">📄</div>
+    <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
+  </div>
+
+  <script>
+    function navigateTo(page) {
+      if (sessionStorage.getItem('demo_mode') !== 'true') {
+        alert('デモモードでない場合は、この機能は利用できません。');
+        return;
+      }
+      window.location.href = page;
+    }
+
+    // デモモードチェック
+    if (sessionStorage.getItem('demo_mode') !== 'true') {
+      alert('デモモードでアクセスしてください。');
+      window.location.href = 'demo_index.html';
+    }
+  </script>
+</body>
+</html>
