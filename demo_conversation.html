@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>会話履歴 - デモ</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", "メイリオ", sans-serif;
+      background: #fff;
+      max-width: 480px;
+      margin: 0 auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .demo-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      font-size: 12px;
+      text-align: center;
+      margin: 0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid #aaa;
+      height: 64px;
+      background: #f5f5f5;
+      box-sizing: border-box;
+    }
+
+    .date {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .header-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-icons div {
+      width: 36px;
+      height: 36px;
+      margin-left: 24px;
+      cursor: pointer;
+      background: #ccc;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .content-container {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-y: auto;
+      margin-bottom: 100px;
+    }
+
+    .content {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+    }
+
+    .date-header {
+      text-align: center;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      border-bottom: 2px solid #f0f0f0;
+      margin-bottom: 12px;
+    }
+
+    .conversation-items {
+      margin-bottom: 16px;
+    }
+
+    .conversation-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px dashed #999;
+      font-size: 16px;
+      line-height: 1.6;
+      flex-wrap: wrap;
+    }
+
+    .conversation-item div:first-child {
+      width: 85%;
+      word-break: break-word;
+    }
+
+    .conversation-item p {
+      margin: 4px 0;
+    }
+
+    .conversation-line {
+      margin: 2px 0;
+      padding: 4px 0;
+    }
+
+    .speaker-caretaker {
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .speaker-client {
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    .action-buttons {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      justify-content: space-between;
+      padding: 16px;
+      background: white;
+      border-top: 1px solid #ddd;
+      box-sizing: border-box;
+      gap: 16px;
+    }
+
+    .button {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button {
+      background-color: #6c757d;
+      color: white;
+    }
+
+    .back-button:hover {
+      background-color: #545b62;
+    }
+
+    .download-button {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .download-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-banner">
+    🚀 デモモード - サンプルデータを表示しています
+  </div>
+
+  <div class="header">
+    <div class="date">2025 3/3</div>
+    <div class="header-icons">
+      <div onclick="navigateTo('demo_notifications.html')" title="通知">🔔</div>
+      <div onclick="navigateTo('demo_settings.html')" title="設定">⚙️</div>
+      <div onclick="navigateTo('demo_account.html')" title="プロフィール">👤</div>
+    </div>
+  </div>
+
+  <div class="content-container">
+    <div class="content">
+      <div class="date-header" id="dateHeader">会話履歴</div>
+
+      <div class="conversation-items">
+        <div class="conversation-item">
+          <div>
+            <strong>朝の健康チェック</strong>
+            <div class="conversation-line speaker-caretaker">ケアトーカー：おはようございます、田中さん。今朝の調子はいかがですか？</div>
+            <div class="conversation-line speaker-client">田中様：おはようございます。昨夜はよく眠れました。少し頭痛がありますが、大丈夫です。</div>
+            <div class="conversation-line speaker-caretaker">ケアトーカー：頭痛があるということですね。薬は飲まれましたか？</div>
+            <div class="conversation-line speaker-client">田中様：はい、朝の分は飲みました。いつもより少し早めに飲んだせいか、もう楽になってきています。</div>
+          </div>
+          <div>08:15</div>
+        </div>
+
+        <div class="conversation-item">
+          <div>
+            <strong>服薬確認</strong>
+            <div class="conversation-line speaker-caretaker">ケアトーカー：高血圧のお薬は毎朝決まった時間に飲んでいただいていますが、今日はいかがでしたか？</div>
+            <div class="conversation-line speaker-client">田中様：8時30分頃に飲みました。水と一緒にちゃんと飲めています。</div>
+            <div class="conversation-line speaker-caretaker">ケアトーカー：それは良かったです。副作用などは感じませんか？</div>
+            <div class="conversation-line speaker-client">田中様：特に問題ありません。調子は良い方だと思います。</div>
+          </div>
+          <div>10:30</div>
+        </div>
+
+        <div class="conversation-item">
+          <div>
+            <strong>今日の予定相談</strong>
+            <div class="conversation-line speaker-caretaker">ケアトーカー：今日は何かご予定はありますか？</div>
+            <div class="conversation-line speaker-client">田中様：午前中は公園を散歩したいと思います。天気が良いので気持ちよく歩けそうです。</div>
+            <div class="conversation-line speaker-caretaker">ケアトーカー：それは素晴らしいですね。散歩は健康にとても良いです。気をつけて行ってらっしゃい。</div>
+            <div class="conversation-line speaker-client">田中様：ありがとうございます。30分ぐらい歩いて、帰ったらまた連絡しますね。</div>
+          </div>
+          <div>11:00</div>
+        </div>
+
+        <div class="conversation-item">
+          <div>
+            <strong>散歩後の報告</strong>
+            <div class="conversation-line speaker-client">田中様：散歩から帰ってきました。とても気持ちよかったです。</div>
+            <div class="conversation-line speaker-caretaker">ケアトーカー：お疲れさまでした！どのぐらい歩かれましたか？</div>
+            <div class="conversation-line speaker-client">田中様：公園を一周して、近所の田中さんともお話しできました。30分ほどでした。</div>
+            <div class="conversation-line speaker-caretaker">ケアトーカー：他の方との交流も大切ですね。体調に変化はありませんか？</div>
+            <div class="conversation-line speaker-client">田中様：疲れもなく、むしろすっきりした感じです。頭痛も完全になくなりました。</div>
+          </div>
+          <div>12:30</div>
+        </div>
+
+        <div class="conversation-item">
+          <div>
+            <strong>午後の体調確認</strong>
+            <div class="conversation-line speaker-caretaker">ケアトーカー：午後の調子はいかがですか？昼食はとられましたか？</div>
+            <div class="conversation-line speaker-client">田中様：昼食もしっかり食べました。おにぎりとお味噌汁、美味しかったです。</div>
+            <div class="conversation-line speaker-caretaker">ケアトーカー：それは良かったです。午後は何かご予定はありますか？</div>
+            <div class="conversation-line speaker-client">田中様：少し休んでから、家の掃除をしようと思います。無理のない範囲で。</div>
+            <div class="conversation-line speaker-caretaker">ケアトーカー：適度な活動は良いことです。疲れたら無理せず休んでくださいね。</div>
+          </div>
+          <div>16:00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-buttons">
+    <button class="button back-button" onclick="goBack()">戻る</button>
+    <button class="button download-button" onclick="downloadConversation()">txt出力</button>
+  </div>
+
+  <script>
+    const demoConversations = {
+      '2025-03-01': `08:15-朝の健康チェック
+ケアトーカー：おはようございます、田中さん。今朝の調子はいかがですか？
+田中様：おはようございます。今日も元気です。よく眠れました。
+ケアトーカー：それは良かったです。何か気になることはありますか？
+田中様：特にありません。今日も一日頑張ります。
+**********
+10:30-服薬確認
+ケアトーカー：お薬は忘れずに飲まれましたか？
+田中様：はい、朝の分はちゃんと飲みました。
+**********`,
+      
+      '2025-03-03': `08:15-朝の健康チェック
+ケアトーカー：おはようございます、田中さん。今朝の調子はいかがですか？
+田中様：おはようございます。昨夜はよく眠れました。少し頭痛がありますが、大丈夫です。
+ケアトーカー：頭痛があるということですね。薬は飲まれましたか？
+田中様：はい、朝の分は飲みました。いつもより少し早めに飲んだせいか、もう楽になってきています。
+**********
+10:30-服薬確認
+ケアトーカー：高血圧のお薬は毎朝決まった時間に飲んでいただいていますが、今日はいかがでしたか？
+田中様：8時30分頃に飲みました。水と一緒にちゃんと飲めています。
+ケアトーカー：それは良かったです。副作用などは感じませんか？
+田中様：特に問題ありません。調子は良い方だと思います。
+**********
+11:00-今日の予定相談
+ケアトーカー：今日は何かご予定はありますか？
+田中様：午前中は公園を散歩したいと思います。天気が良いので気持ちよく歩けそうです。
+ケアトーカー：それは素晴らしいですね。散歩は健康にとても良いです。気をつけて行ってらっしゃい。
+田中様：ありがとうございます。30分ぐらい歩いて、帰ったらまた連絡しますね。
+**********
+12:30-散歩後の報告
+田中様：散歩から帰ってきました。とても気持ちよかったです。
+ケアトーカー：お疲れさまでした！どのぐらい歩かれましたか？
+田中様：公園を一周して、近所の田中さんともお話しできました。30分ほどでした。
+ケアトーカー：他の方との交流も大切ですね。体調に変化はありませんか？
+田中様：疲れもなく、むしろすっきりした感じです。頭痛も完全になくなりました。
+**********
+16:00-午後の体調確認
+ケアトーカー：午後の調子はいかがですか？昼食はとられましたか？
+田中様：昼食もしっかり食べました。おにぎりとお味噌汁、美味しかったです。
+ケアトーカー：それは良かったです。午後は何かご予定はありますか？
+田中様：少し休んでから、家の掃除をしようと思います。無理のない範囲で。
+ケアトーカー：適度な活動は良いことです。疲れたら無理せず休んでくださいね。
+**********`
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (sessionStorage.getItem('demo_mode') !== 'true') {
+        alert('デモモードでアクセスしてください。');
+        window.location.href = 'demo_index.html';
+        return;
+      }
+
+      const selectedDate = sessionStorage.getItem('demo_selected_date');
+      if (selectedDate) {
+        updateDateHeader(selectedDate);
+      }
+    });
+
+    function updateDateHeader(dateString) {
+      if (dateString) {
+        const [year, month, day] = dateString.split('-');
+        document.getElementById('dateHeader').textContent = 
+          `会話履歴 (${year}年${parseInt(month)}月${parseInt(day)}日)`;
+      }
+    }
+
+    function goBack() {
+      sessionStorage.removeItem('demo_selected_date');
+      window.location.href = 'demo_calendar.html';
+    }
+
+    function downloadConversation() {
+      const selectedDate = sessionStorage.getItem('demo_selected_date');
+      const conversationContent = demoConversations[selectedDate] || '';
+      
+      if (!conversationContent) {
+        alert('ダウンロードする会話がありません。');
+        return;
+      }
+
+      const [year, month, day] = selectedDate.split('-');
+      const filename = `conversation_${year}-${month}-${day}.txt`;
+
+      const blob = new Blob([conversationContent], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function navigateTo(page) {
+      if (sessionStorage.getItem('demo_mode') !== 'true') {
+        alert('デモモードでない場合は、この機能は利用できません。');
+        return;
+      }
+      window.location.href = page;
+    }
+  </script>
+</body>
+</html>
